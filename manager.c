@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 vector *read_from_file() {
   vector *locations_vec = create_vector(sizeof(location));
   if (!file_exists(FILENAME)) {
@@ -123,16 +122,19 @@ void list_by_location(vector *locations_vec, char *location_name) {
   printf("No location exists with Name : %s\n", location_name);
 }
 
-void get_by_username(vector *locations_vec, char *username) {
+void get_by_username(vector *locations_vec, char *location_name,
+                     char *username) {
   for (int i = 0; i < vec_count(locations_vec); i++) {
     location *loc = (location *)vec_at(locations_vec, i);
-    for (int j = 0; j < vec_count(loc->accounts); j++) {
-      account *acc = (account *)vec_at(loc->accounts, j);
-      if (strcmp(acc->username, username) == 0) {
-        printf("Location : %s\n", loc->name);
-        printf("    Username : %s\n", acc->username);
-        copy_to_clipboard(acc->password);
-        return;
+    if (strcmp(loc->name, location_name) == 0) {
+      for (int j = 0; j < vec_count(loc->accounts); j++) {
+        account *acc = (account *)vec_at(loc->accounts, j);
+        if (strcmp(acc->username, username) == 0) {
+          printf("Location : %s\n", loc->name);
+          printf("    Username : %s\n", acc->username);
+          copy_to_clipboard(acc->password);
+          return;
+        }
       }
     }
   }
@@ -147,8 +149,9 @@ void create_account(vector *locations_vec, char *location_name, char *username,
       for (int j = 0; j < vec_count(loc->accounts); j++) {
         account *acc_existing = (account *)vec_at(loc->accounts, j);
         if (strcmp(username, acc_existing->username) == 0) {
-            printf("Username '%s' already exists in the location : %s\n",username,loc->name);
-            return ;
+          printf("Username '%s' already exists in the location : %s\n",
+                 username, loc->name);
+          return;
         }
       }
       account new_acc = {username, password};
@@ -162,16 +165,37 @@ void create_account(vector *locations_vec, char *location_name, char *username,
   write_to_file(locations_vec);
 }
 
-void delete_by_location(vector *locations_vec,char *location_name){
-    for (int i = 0; i < vec_count(locations_vec); i++) {
-      location *loc = (location *)vec_at(locations_vec, i);
-      if (strcmp(loc->name, location_name) == 0) {
-        printf("Deleting all accounts related to '%s'\n",loc->name);
-        free_vector(&loc->accounts);
-        vec_remove_at(locations_vec, i);
-        printf("Deleted sucessfully\n");
-        return;
+void delete_by_location(vector *locations_vec, char *location_name) {
+  for (int i = 0; i < vec_count(locations_vec); i++) {
+    location *loc = (location *)vec_at(locations_vec, i);
+    if (strcmp(loc->name, location_name) == 0) {
+      printf("Deleting all accounts related to Location '%s'\n", loc->name);
+      free_vector(&loc->accounts);
+      vec_remove_at(locations_vec, i);
+      printf("Deleted sucessfully\n");
+      return;
+    }
+  }
+  printf("No location exists with Name : %s\n", location_name);
+}
+
+void delete_by_username(vector *locations_vec, char *location_name,
+                        char *username) {
+  for (int i = 0; i < vec_count(locations_vec); i++) {
+    location *loc = (location *)vec_at(locations_vec, i);
+    if (strcmp(loc->name, location_name) == 0) {
+      printf("Deleting account '%s' related to Location '%s'\n", username,
+             loc->name);
+      for (int j = 0; j < vec_count(loc->accounts); j++) {
+        account *acc = (account *)vec_at(loc->accounts, j);
+        if (strcmp(acc->username, username) == 0) {
+          vec_remove_at(loc->accounts, j);
+          printf("Deleted sucessfully\n");
+          return;
+        }
       }
     }
-    printf("No location exists with Name : %s\n", location_name);
+  }
+  printf("No account exists of Location '%s' with Username : %s\n",
+         location_name, username);
 }

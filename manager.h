@@ -20,6 +20,7 @@ void list(vector *locations_vec);
 void list_by_location(vector *locations_vec,char *location_name);
 void delete_by_location(vector *locations_vec,char *location_name);
 void create_account(vector *locations_vec,char *location_name, char *username, char *password);
-void get_by_username(vector *locations_vec,char *username);
+void get_by_username(vector *locations_vec,char*location_name,char *username);
+void delete_by_username(vector *locations_vec,char*location_name,char *username);
 
 #endif

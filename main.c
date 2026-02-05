@@ -24,19 +24,32 @@ int main() {
 
     if (strcmp(option_buffer, "1") == 0) { // search all
       list(locations_vec);
-    } else if (strcmp(option_buffer, "2") == 0) { // search by location
+    }
+
+
+    else if (strcmp(option_buffer, "2") == 0) { // search by location
       char location_buffer[64];
       printf("[Read By Location] Please enter location name : ");
       fgets(location_buffer, sizeof(location_buffer), stdin);
       location_buffer[strcspn(location_buffer, "\n")] = '\0';
       list_by_location(locations_vec, location_buffer);
-    } else if (strcmp(option_buffer, "3") == 0) { // search by username
+    }
+
+
+    else if (strcmp(option_buffer, "3") == 0) { // search by username
+      char location_buffer[64];
       char username_buffer[1024];
+      printf("[Read By Username] Please enter location name : ");
+      fgets(location_buffer, sizeof(location_buffer), stdin);
+      location_buffer[strcspn(location_buffer, "\n")] = '\0';
       printf("[Read By Username] Please enter account username : ");
       fgets(username_buffer, sizeof(username_buffer), stdin);
       username_buffer[strcspn(username_buffer, "\n")] = '\0';
-      get_by_username(locations_vec, username_buffer);
-    } else if (strcmp(option_buffer, "4") == 0) { // create new account
+      get_by_username(locations_vec, location_buffer,username_buffer);
+    }
+
+
+    else if (strcmp(option_buffer, "4") == 0) { // create new account
       char location_buffer[64];
       char username_buffer[1024];
       char password_buffer[1024];
@@ -52,7 +65,10 @@ int main() {
       password_buffer[strcspn(password_buffer, "\n")] = '\0';
       create_account(locations_vec, location_buffer, username_buffer,
                      password_buffer);
-    } else if (strcmp(option_buffer, "5") == 0) { // delete all
+    }
+
+
+    else if (strcmp(option_buffer, "5") == 0) { // delete all
       if (file_exists(FILENAME)) {
         if (file_delete(FILENAME) == 0) {
           printf("[Delete All] Deleted all accounts sucessfully\n");
@@ -60,7 +76,10 @@ int main() {
       } else {
         printf("[Delete All] Meta File doesn't exist, No need for deletion\n");
       }
-    } else if (strcmp(option_buffer, "6") == 0) { // delete by location
+    }
+
+
+    else if (strcmp(option_buffer, "6") == 0) { // delete by location
       char location_buffer[64];
       printf("[Delete By Location] Please enter location name : ");
       fgets(location_buffer, sizeof(location_buffer), stdin);
@@ -68,9 +87,26 @@ int main() {
       delete_by_location(locations_vec, location_buffer);
     }
 
+    else if (strcmp(option_buffer, "7") == 0) { // delete by username
+      char location_buffer[64];
+      char username_buffer[1024];
+      printf("[Delete By Location] Please enter location name : ");
+      fgets(location_buffer, sizeof(location_buffer), stdin);
+      location_buffer[strcspn(location_buffer, "\n")] = '\0';
+      printf("[Read By Username] Please enter account username : ");
+      fgets(username_buffer, sizeof(username_buffer), stdin);
+      username_buffer[strcspn(username_buffer, "\n")] = '\0';
+      delete_by_username(locations_vec, location_buffer, username_buffer);
+    }
+
+
     else if (strcmp(option_buffer, "q") == 0) { // quit
       return 0;
-    } else {
+    }
+
+
+
+    else {
       printf("Option is not valid, Please choose a valid option.\n");
     }
   }
