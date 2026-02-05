@@ -6,15 +6,15 @@
 
 int main() {
 	printf("-------------Citadel Password Manager-------------\n");
-	printf("    [1] Search All\n");
-	printf("    [2] Search By Location\n");
-	printf("    [3] Search By Username\n");
-	printf("    [4] Create New Account\n");
-	printf("    [5] Delete All\n");
-	printf("    [6] Delete By Location\n");
-	printf("    [7] Delete By Username\n");
-	printf("    [8] Update Password\n");
-	printf("    [q] Quit Application\n");
+	printf("[1] Search All\n");
+	printf("[2] Search By Location\n");
+	printf("[3] Search By Username\n");
+	printf("[4] Create New Account\n");
+	//printf("[5] Delete All\n");
+	printf("[5] Delete By Location\n");
+	printf("[6] Delete By Username\n");
+	printf("[7] Update Password\n");
+	printf("[q] Quit Application\n");
 	while (1) {
 		char option_buffer[16];
 		printf("Please choose an option : ");
